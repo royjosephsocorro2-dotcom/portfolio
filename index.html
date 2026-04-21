@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roy Joseph D. Socorro | Web Developer</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --border:    #30363d;
+      --accent:    #58a6ff;
+      --accent2:   #3fb950;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --radius:    10px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(13,17,23,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 60px;
+    }
+    .nav-logo {
+      font-weight: 700; font-size: 1.1rem; color: var(--accent);
+      text-decoration: none; letter-spacing: .5px;
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted); font-size: .9rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(88,166,255,.12), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 700px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(88,166,255,.1);
+      border: 1px solid rgba(88,166,255,.3);
+      color: var(--accent);
+      padding: .3rem .9rem; border-radius: 20px;
+      font-size: .8rem; font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .hero-name {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 800; line-height: 1.1;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .5rem;
+    }
+    .hero-title {
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      color: var(--muted); margin-bottom: 1.5rem;
+    }
+    .hero-title span { color: var(--accent2); font-weight: 600; }
+    .hero-about {
+      color: var(--muted); max-width: 580px; margin: 0 auto 2.5rem;
+      font-size: .97rem;
+    }
+    .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: .65rem 1.6rem; border-radius: var(--radius);
+      font-size: .9rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: all .2s; display: inline-flex;
+      align-items: center; gap: .5rem;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0d1117;
+      border: none;
+    }
+    .btn-primary:hover { background: #79c0ff; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* ── Section Base ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: .75rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .5rem;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800;
+      margin-bottom: 3rem;
+    }
+    .section-title span { color: var(--accent); }
+
+    /* ── About / Stats ── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: .97rem; }
+    .stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-size: 2rem; font-weight: 800; color: var(--accent);
+      display: block; line-height: 1;
+    }
+    .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .about-img-wrap {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .avatar-placeholder {
+      width: 220px; height: 220px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #3fb950 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; font-weight: 800; color: #0d1117;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 40px rgba(88,166,255,.2);
+    }
+
+    /* ── Skills ── */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1rem; text-align: center;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      cursor: default;
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(88,166,255,.15);
+    }
+    .skill-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+    .skill-name { font-size: .85rem; font-weight: 600; color: var(--text); }
+    .skill-level {
+      font-size: .72rem; color: var(--muted);
+      margin-top: .25rem;
+    }
+
+    /* ── Projects ── */
+    #projects { background: var(--surface); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(88,166,255,.12);
+    }
+    .project-tag {
+      display: inline-block;
+      font-size: .7rem; font-weight: 600;
+      padding: .2rem .6rem; border-radius: 4px;
+      background: rgba(88,166,255,.12); color: var(--accent);
+      margin-bottom: .75rem; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .project-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .project-desc { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .stack-pill {
+      font-size: .72rem; padding: .2rem .55rem; border-radius: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Contact ── */
+    #contact { background: var(--bg); text-align: center; }
+    .contact-sub { color: var(--muted); max-width: 500px; margin: -2rem auto 2.5rem; font-size: .95rem; }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.8rem; text-decoration: none;
+      color: var(--text); font-size: .9rem; font-weight: 600;
+      display: flex; align-items: center; gap: .6rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .contact-card:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+    .contact-icon { font-size: 1.2rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 1.5rem;
+      font-size: .8rem; color: var(--muted);
+    }
+    footer span { color: var(--accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; }
+      .avatar-placeholder { width: 160px; height: 160px; font-size: 3.5rem; }
+      .nav-links { gap: 1rem; }
+      .stats { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a class="nav-logo" href="#hero">RJS</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">&#128187; Open to Work</div>
+    <h1 class="hero-name">Roy Joseph D. Socorro</h1>
+    <p class="hero-title">Aspiring <span>Web Developer</span></p>
+    <p class="hero-about">
+      Passionate about building clean, functional websites and web applications.
+      Strong foundation in front-end and back-end technologies with a commitment
+      to continuous learning and problem-solving.
+    </p>
+    <div class="btn-group">
+      <a href="#projects" class="btn btn-primary">&#128196; View My Work</a>
+      <a href="#contact" class="btn btn-outline">&#9993;&#65039; Contact Me</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">Get to know me</div>
+    <h2 class="section-title">About <span>Me</span></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm an aspiring Web Developer with hands-on experience in HTML, CSS, PHP, C, and SQL.
+          I enjoy crafting responsive websites and building practical web applications that solve
+          real-world problems.
+        </p>
+        <p>
+          With a strong foundation in IT systems and troubleshooting, I bring both a developer's
+          mindset and a technical eye to every project. I'm always eager to learn new technologies
+          and improve my craft.
+        </p>
+        <p>
+          Currently looking for opportunities to grow professionally and contribute to impactful
+          digital projects.
+        </p>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-number">5+</span>
+            <span class="stat-label">Technologies</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">&#128218;</span>
+            <span class="stat-label">Lifelong Learner</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">&#128293;</span>
+            <span class="stat-label">Passionate</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <div class="avatar-placeholder">RJ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">What I work with</div>
+    <h2 class="section-title">My <span>Skills</span></h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">&#127760;</span>
+        <div class="skill-name">HTML</div>
+        <div class="skill-level">Markup & Structure</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#127912;</span>
+        <div class="skill-name">CSS</div>
+        <div class="skill-level">Styling & Layout</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#128201;</span>
+        <div class="skill-name">SQL</div>
+        <div class="skill-level">Database Queries</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#128011;</span>
+        <div class="skill-name">PHP</div>
+        <div class="skill-level">Server-side Scripting</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#9881;&#65039;</span>
+        <div class="skill-name">C Language</div>
+        <div class="skill-level">Programming Logic</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#128269;</span>
+        <div class="skill-name">IT Troubleshooting</div>
+        <div class="skill-level">Systems Support</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#128242;</span>
+        <div class="skill-name">Responsive Design</div>
+        <div class="skill-level">Mobile-friendly Web</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#128196;</span>
+        <div class="skill-name">Web Applications</div>
+        <div class="skill-level">CRUD & Forms</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">What I've built</div>
+    <h2 class="section-title">My <span>Projects</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <span class="project-tag">Web App</span>
+        <div class="project-title">Student Information System</div>
+        <div class="project-desc">
+          A CRUD-based web application for managing student records with login authentication
+          and database integration.
+        </div>
+        <div class="project-stack">
+          <span class="stack-pill">PHP</span>
+          <span class="stack-pill">MySQL</span>
+          <span class="stack-pill">HTML</span>
+          <span class="stack-pill">CSS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Website</span>
+        <div class="project-title">Responsive Company Profile</div>
+        <div class="project-desc">
+          A multi-section responsive website featuring a hero banner, about section, services,
+          and contact form — built with pure HTML and CSS.
+        </div>
+        <div class="project-stack">
+          <span class="stack-pill">HTML</span>
+          <span class="stack-pill">CSS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Console App</span>
+        <div class="project-title">Inventory Management (C)</div>
+        <div class="project-desc">
+          A command-line inventory system written in C that handles product entries, stock
+          tracking, and basic reporting via file I/O.
+        </div>
+        <div class="project-stack">
+          <span class="stack-pill">C</span>
+          <span class="stack-pill">File I/O</span>
+        </div>
+      </div>
+
+    </div>
+    <p style="text-align:center; margin-top:2rem; color:var(--muted); font-size:.85rem;">
+      &#128161; More projects coming soon — check back or reach out to see my latest work.
+    </p>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Let's connect</div>
+    <h2 class="section-title">Contact <span>Me</span></h2>
+    <p class="contact-sub">
+      I'm open to freelance work, internships, and full-time opportunities.
+      Feel free to reach out through any of the channels below.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:youremail@email.com" class="contact-card">
+        <span class="contact-icon">&#9993;&#65039;</span> Email Me
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-card">
+        <span class="contact-icon">&#128025;</span> GitHub
+      </a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-card">
+        <span class="contact-icon">&#128188;</span> LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>Designed & Built by <span>Roy Joseph D. Socorro</span> &mdash; 2026</p>
+</footer>
+
+</body>
+</html>
